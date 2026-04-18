@@ -5,11 +5,12 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const shop = await prisma.shop.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         products: true,
         orders: true,
@@ -33,12 +34,13 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const shop = await prisma.shop.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name: body.name,
         shopifyDomain: body.shopifyDomain,
@@ -65,11 +67,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.shop.delete({
-      where: { id: params.id },
+      where: { id },
     });
     return NextResponse.json({ message: "Shop deleted" });
   } catch (error) {

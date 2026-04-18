@@ -139,7 +139,7 @@ export default function OrderPage() {
           "已完成": "success",
           "异常": "error",
         };
-        return <Tag color={colorMap[status]}>{status}</Tag>;
+        return <Tag color={colorMap[status as string]}>{status}</Tag>;
       },
     },
     {

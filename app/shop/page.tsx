@@ -17,7 +17,7 @@ interface Shop {
   taxMode: string;
   authorized: boolean;
   syncEnabled: boolean;
-  lastSyncedAt: string;
+  lastSyncedAt: string | null;
 }
 
 const mockShops: Shop[] = [

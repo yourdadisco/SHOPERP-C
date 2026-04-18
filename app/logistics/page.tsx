@@ -96,7 +96,7 @@ export default function LogisticsPage() {
           已送达: "success",
           异常: "error",
         };
-        return <Tag color={colorMap[status]}>{status}</Tag>;
+        return <Tag color={colorMap[status as keyof typeof colorMap]}>{status}</Tag>;
       },
     },
     {

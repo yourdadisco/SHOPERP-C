@@ -83,7 +83,7 @@ export default function AfterSalePage() {
           退货: "blue",
           换货: "purple",
         };
-        return <Tag color={colorMap[type]}>{type}</Tag>;
+        return <Tag color={colorMap[type as keyof typeof colorMap]}>{type}</Tag>;
       },
     },
     {
@@ -108,7 +108,7 @@ export default function AfterSalePage() {
           已完成: "success",
           已关闭: "default",
         };
-        return <Tag color={colorMap[status]}>{status}</Tag>;
+        return <Tag color={colorMap[status as keyof typeof colorMap]}>{status}</Tag>;
       },
     },
     {

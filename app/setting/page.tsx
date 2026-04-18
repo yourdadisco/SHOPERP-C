@@ -179,11 +179,11 @@ export default function SettingPage() {
       key: "permissions",
       render: (perms) => (
         <Space wrap>
-          {perms.map((perm: string) => (
+          {Array.isArray(perms) ? perms.map((perm: string) => (
             <Tag key={perm} color="blue">
               {perm}
             </Tag>
-          ))}
+          )) : null}
         </Space>
       ),
     },

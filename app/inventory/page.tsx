@@ -133,7 +133,7 @@ export default function InventoryPage() {
           预警: "warning",
           缺货: "error",
         };
-        return <Tag color={colorMap[status]}>{status}</Tag>;
+        return <Tag color={colorMap[status as keyof typeof colorMap]}>{status}</Tag>;
       },
     },
     {

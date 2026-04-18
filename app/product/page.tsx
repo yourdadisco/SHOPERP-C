@@ -73,7 +73,7 @@ export default function ProductPage() {
       key: "mainImage",
       render: (image) => (
         <img
-          src={image || "https://picsum.photos/100"}
+          src={(image && typeof image === 'string' ? image : "https://picsum.photos/100")}
           alt="商品"
           style={{ width: 50, height: 50, objectFit: "cover", borderRadius: 4 }}
         />
@@ -113,7 +113,7 @@ export default function ProductPage() {
       render: (stock, record) => (
         <Space>
           <span>{stock}</span>
-          {stock <= record.alertStock && (
+          {Number(stock) <= Number(record.alertStock) && (
             <Tag color="warning">低库存</Tag>
           )}
         </Space>

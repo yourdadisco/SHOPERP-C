@@ -133,7 +133,7 @@ export default function FinancePage() {
       dataIndex: "netProfit",
       key: "netProfit",
       render: (profit) => (
-        <span style={{ color: (profit || 0) > 0 ? "#3f8600" : "#cf1322" }}>
+        <span style={{ color: (Number(profit) || 0) > 0 ? "#3f8600" : "#cf1322" }}>
           ${profit}
         </span>
       ),
@@ -142,11 +142,14 @@ export default function FinancePage() {
       title: "毛利率",
       dataIndex: "margin",
       key: "margin",
-      render: (margin) => (
-        <Tag color={margin > 40 ? "success" : margin > 20 ? "warning" : "error"}>
-          {margin}%
-        </Tag>
-      ),
+      render: (margin) => {
+        const marginNum = Number(margin) || 0;
+        return (
+          <Tag color={marginNum > 40 ? "success" : marginNum > 20 ? "warning" : "error"}>
+            {margin}%
+          </Tag>
+        );
+      },
     },
   ];
 

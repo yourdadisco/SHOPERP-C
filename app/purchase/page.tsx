@@ -85,7 +85,7 @@ export default function PurchasePage() {
           已发货: "processing",
           已入库: "success",
         };
-        return <Tag color={colorMap[status]}>{status}</Tag>;
+        return <Tag color={colorMap[status as keyof typeof colorMap]}>{status}</Tag>;
       },
     },
     {
