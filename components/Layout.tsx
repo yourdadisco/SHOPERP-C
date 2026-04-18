@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -23,67 +24,106 @@ const { Header, Sider, Content } = Layout;
 
 const menuItems = [
   {
-    key: "dashboard",
+    key: "/",
     icon: <DashboardOutlined />,
     label: "首页概览",
+    path: "/",
   },
   {
-    key: "shop",
+    key: "/shop",
     icon: <ShopOutlined />,
     label: "店铺管理",
+    path: "/shop",
   },
   {
-    key: "product",
+    key: "/product",
     icon: <ProductOutlined />,
     label: "商品管理",
+    path: "/product",
   },
   {
-    key: "order",
+    key: "/order",
     icon: <ShoppingOutlined />,
     label: "订单管理",
+    path: "/order",
   },
   {
-    key: "inventory",
+    key: "/inventory",
     icon: <DatabaseOutlined />,
     label: "库存管理",
+    path: "/inventory",
   },
   {
-    key: "purchase",
+    key: "/purchase",
     icon: <ShoppingCartOutlined />,
     label: "采购管理",
+    path: "/purchase",
   },
   {
-    key: "logistics",
+    key: "/logistics",
     icon: <TruckOutlined />,
     label: "物流管理",
+    path: "/logistics",
   },
   {
-    key: "afterSale",
+    key: "/after-sale",
     icon: <CustomerServiceOutlined />,
     label: "售后客服",
+    path: "/after-sale",
   },
   {
-    key: "finance",
+    key: "/finance",
     icon: <DollarOutlined />,
     label: "财务利润",
+    path: "/finance",
   },
   {
-    key: "report",
+    key: "/report",
     icon: <BarChartOutlined />,
     label: "数据报表",
+    path: "/report",
   },
   {
-    key: "setting",
+    key: "/setting",
     icon: <SettingOutlined />,
     label: "系统设置",
+    path: "/setting",
   },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(["/"]);
+  const router = useRouter();
+  const pathname = usePathname();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  // 根据当前路径更新选中的菜单项
+  useEffect(() => {
+    const currentPath = pathname || "/";
+    // 查找匹配的菜单项
+    const matchedItem = menuItems.find(item => item.path === currentPath);
+    if (matchedItem) {
+      setSelectedKeys([matchedItem.key]);
+    } else {
+      // 如果没有完全匹配，尝试前缀匹配（用于嵌套路由）
+      const matchedByPrefix = menuItems.find(item => currentPath.startsWith(item.path) && item.path !== "/");
+      if (matchedByPrefix) {
+        setSelectedKeys([matchedByPrefix.key]);
+      } else {
+        setSelectedKeys(["/"]);
+      }
+    }
+  }, [pathname]);
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    const menuItem = menuItems.find(item => item.key === key);
+    if (menuItem) {
+      router.push(menuItem.path);
+    }
+  };
 
   const userMenuItems: MenuProps["items"] = [
     {
@@ -129,7 +169,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["dashboard"]}
+          selectedKeys={selectedKeys}
+          onClick={handleMenuClick}
           items={menuItems}
         />
       </Sider>
